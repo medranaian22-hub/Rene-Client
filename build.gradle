@@ -1,0 +1,30 @@
+plugins {
+    id 'fabric-loom' version '1.14.1'
+    id 'maven-publish'
+}
+
+version = '0.1.0'
+group = 'com.rene'
+base { archivesName = 'rene-client' }
+
+repositories { mavenCentral() }
+
+def minecraftVersion = '1.21.11'
+def yarnVersion = '1.21.11+build.3'
+def fabricApiVersion = '0.141.1+1.21.11'
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraftVersion}"
+    mappings "net.fabricmc:yarn:${yarnVersion}:v2"
+    modImplementation "net.fabricmc:fabric-loader:0.18.1"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') { expand 'version': project.version }
+}
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(21) }
+    withSourcesJar()
+}
